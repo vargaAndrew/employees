@@ -25,15 +25,15 @@ pipeline {
                 echo "Acceptance stage"
                 sh "./mvnw -B integration-test -Dbuild.number=${BUILD_NUMBER}"
             }
-        }    
-    }
-    stage('Docker') {
-        steps {
-            sh "docker build -f Dockerfile.layered -t ${IMAGE_NAME} ."
-            sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u=${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
-            sh "docker push ${IMAGE_NAME}"
-            sh "docker tag ${IMAGE_NAME} training360/employees:latest"
-            sh "docker push training360/employees:latest"                
+        }
+        stage('Docker') {
+            steps {
+                sh "docker build -f Dockerfile.layered -t ${IMAGE_NAME} ."
+                sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u=${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+                sh "docker push ${IMAGE_NAME}"
+                sh "docker tag ${IMAGE_NAME} training360/employees:latest"
+                sh "docker push training360/employees:latest"                
+            }
         }
     }
 }
